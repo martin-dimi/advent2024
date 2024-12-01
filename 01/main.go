@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"sort"
@@ -10,19 +11,17 @@ import (
 
 func main() {
 	inputFileArg := os.Args[1]
-	inputBytes, err := os.ReadFile(inputFileArg)
+
+	file, err := os.Open(inputFileArg)
 	if err != nil {
 		panic(err)
 	}
 
-	lines := strings.Split(string(inputBytes), "\n")
-	if len(lines) == 0 {
-		panic("No input data")
-	}
-
-	left := make([]int, 0, len(lines))
-	right := make([]int, 0, len(lines))
-	for _, line := range lines {
+	left := make([]int, 0)
+	right := make([]int, 0)
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
 		if line == "" {
 			continue
 		}
